@@ -15,17 +15,53 @@ const initialExpenses = [
 
 
 function App() {
-  const result = useState(initialExpenses);
-  const expenses = result[0];
-  const setExpenses = result[1];
-  console.log(expenses, setExpenses);
-  
-  
+  // ---------------- valores do state -------------------
+  // todas as despesas, adicione despesa
+  const [ expenses, setExpenses ] = useState(initialExpenses);  
+  // única despesa 
+  const [ charge, setCharge ] = useState('');
+   // única valor 
+   const [ amount, setAmount ] = useState('');
+  // ----------------- funcionalidade com handle ---------------------
+  const handleCharge = e => {
+    console.log(`charge : ${e.target.value}`);
+    
+    setCharge(e.target.value)
+  }
+  const handleAmount = e => {
+    console.log(`amount :  ${e.target.value}`);
+
+    setAmount(e.target.value)
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+  }
+
   return (
     <div>
       <Alert />
-      <ExpenseForm />
-      <ExpenseList />
+      <h1>Calculadora de orçamento</h1>
+      <main className="App">
+
+      <ExpenseForm 
+      charge={charge} 
+      amount={amount} 
+      handleAmount={handleAmount}
+      handleCharge={handleCharge}
+      handleSubmit={handleSubmit}
+      />
+      <ExpenseList expenses={expenses} />
+      </main>
+
+      <h1> 
+        total gasto : <span className="total"> 
+          R$ {expenses.reduce((acc, curr) => {
+            return (acc += curr.amount);
+          }, 0)}
+      </span>
+      </h1>
+
     </div>
   );
 }
