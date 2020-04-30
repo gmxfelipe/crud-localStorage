@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import ExpenseList from './components/ExpenseList';
 import ExpenseForm from './components/ExpenseForm';
 import Alert from './components/Alert';
 import uuid from 'uuid/v4';
 
-const initialExpenses = [
-  {id: uuid(), charge: "renda", amount: 1600 },
-  {id: uuid(), charge: "forma de pagamento", amount: 400 },
-  {id: uuid(), charge: "fatura do cartão de crédito", amount: 1200 }
-];
+// const initialExpenses = [
+//   {id: uuid(), charge: "renda", amount: 1600 },
+//   {id: uuid(), charge: "forma de pagamento", amount: 400 },
+//   {id: uuid(), charge: "fatura do cartão de crédito", amount: 1200 }
+// ];
+
+// -----------------------------------------------------
+// useEffect let's perform side effects 
+// runs after every render
+// first paramater - callback function (runs after render)
+// second paramater - array - for letting react know when to run useEffect 
+// react re-renders when state has changed or props 
+// -----------------------------------------------------
 
 
+const initialExpenses = localStorage.getItem('expenses') 
+? JSON.parse(localStorage.getItem("expenses"))
+: [];
 
 
 function App() {
@@ -24,6 +35,15 @@ function App() {
    const [ amount, setAmount ] = useState('');
    // Alert
    const [alert, setAlert] = useState({ show: false })
+   // PUT (editar)
+   const [edit, setEdit] = useState(false)
+   // Editar item da lista 
+   const [id, setId] = useState(0); 
+  // ----------------- funcionalidade com useEffect  ---------------------
+  useEffect(() => {
+    console.log('');
+    localStorage.setItem('expenses', JSON.stringify(expenses))
+  }, [expenses]);
   // ----------------- funcionalidade com handle ---------------------
   const handleCharge = e => {
     
@@ -43,20 +63,52 @@ function App() {
     }, 3000)
   }
 
-  // Método post do crud e funções de alert ao inserir dado
+  // Método POST do crud e funções de alert ao inserir dado
   const handleSubmit = e => {
     e.preventDefault();
     if(charge !== '' && amount > 0){
-      const singleExpense = {id: uuid(), charge, amount};
-      setExpenses([ ...expenses, singleExpense ]);
-      handleAlert({ type: "success", text: "Item adicionado com sucesso." })
+
+      if(edit){
+        let tempExpenses = expenses.map( item => {
+          return item.id === id ?{...item, charge, amount} : item 
+        });
+        setExpenses(tempExpenses);
+        setEdit(false);
+        handleAlert({ type: "success", text: "Item editado com sucesso." })
+
+      } else {
+        const singleExpense = {id: uuid(), charge, amount};
+        setExpenses([ ...expenses, singleExpense ]);
+        handleAlert({ type: "success", text: "Item adicionado com sucesso." })
+      }
       setCharge('');
       setAmount('');
     } else {
       // lidar com alerta chamado
       handleAlert({ type: 'danger', text: `Ensira algum dado nos campos para adicionar a lista.` })
-    }
-    
+    } 
+  }
+
+  // Limpar todos os items 
+  const clearItems = () => {
+    setExpenses([]);
+  };
+
+  // Função de DELETE do crud 
+  const handleDelete = (id) => {
+    let tempExpenses = expenses.filter(item => item.id !== id);
+    setExpenses(tempExpenses);
+    handleAlert({ type: 'danger', text: 'Item deletado com sucesso' })
+  }
+
+  // Função de PUT do crud 
+  const handleEdit = (id) => {
+    let expense = expenses.find(item => item.id === id)
+    let { charge, amount } = expense;
+    setCharge(charge);
+    setAmount(amount);
+    setEdit(true);
+    setId(id)
   }
 
   return (
@@ -72,8 +124,14 @@ function App() {
       handleAmount={handleAmount}
       handleCharge={handleCharge}
       handleSubmit={handleSubmit}
+      edit={edit}
       />
-      <ExpenseList expenses={expenses} />
+      <ExpenseList 
+      expenses={expenses} 
+      handleDelete={handleDelete} 
+      handleEdit={handleEdit}
+      clearItems={clearItems}
+      />
       </main>
 
       <h1> 
