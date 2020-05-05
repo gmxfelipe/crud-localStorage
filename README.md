@@ -1,1 +1,1 @@
-CRUD - > POST - GET - PUT - DELETE.
+CRUD - > POST - GET - PUT - DELETE
