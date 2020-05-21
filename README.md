@@ -6,7 +6,7 @@ CRUD
 
 </p>
 <p>
-Tela do crud
+- Tela do crud
 </p> 
 <p>
 <img src="https://uploaddeimagens.com.br/images/002/664/886/original/crud.PNG?1590104297" /> 
