@@ -14,7 +14,7 @@ Tela do crud
 
 
 
-Nesse projeto desenvolvi um crud completo com todos os métodos de (CRUD - > POST - GET - PUT - DELETE) salvando os dados no localStorage. 
+Nesse projeto desenvolvi um crud completo com todos os métodos de (CRUD - > POST - GET - PUT - DELETE) salvando os dados no localStorage e calcundo o valor de todos os produtos da lista.
 
 <P> As tecnologias usadas para o desenvolvimento desse projeto foram:</p>
 
