@@ -1,7 +1,7 @@
 
 <h1> 
 <p align="center"> 
-CRUD 
+🚧 CRUD 🚧
 <p></h1>
 
 </p>
@@ -18,4 +18,4 @@ Nesse projeto desenvolvi um crud completo com todos os métodos de (CRUD - > POS
 
 <P> As tecnologias usadas para o desenvolvimento desse projeto foram:</p>
 
- - <a href="https://pt-br.reactjs.org/"> React </a>
+ - <a href="https://pt-br.reactjs.org/">🚀 React </a>
