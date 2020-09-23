@@ -4,6 +4,19 @@
 🚧 CRUD 🚧
 <p></h1>
 
+## Installation
+
+OS X & Linux:
+
+```sh
+- npm install --save
+```
+
+Windows:
+
+```sh
+- npm install --save
+```
 </p>
 <p>
 - Tela do crud
